@@ -5,11 +5,17 @@ go 1.23.2
 require (
 	github.com/aws/aws-sdk-go-v2 v1.36.3
 	github.com/aws/aws-sdk-go-v2/config v1.29.14
+	github.com/aws/aws-sdk-go-v2/service/bedrock v1.34.0
+	github.com/aws/aws-sdk-go-v2/service/bedrockagent v1.43.0
+	github.com/aws/aws-sdk-go-v2/service/cloudwatch v1.45.0
 	github.com/aws/aws-sdk-go-v2/service/costexplorer v1.50.0
+	github.com/aws/aws-sdk-go-v2/service/ec2 v1.224.0
+	github.com/aws/aws-sdk-go-v2/service/elasticloadbalancingv2 v1.45.2
 	github.com/aws/aws-sdk-go-v2/service/iam v1.42.0
+	github.com/aws/aws-sdk-go-v2/service/rds v1.96.0
 	github.com/aws/aws-sdk-go-v2/service/resourcegroupstaggingapi v1.26.3
+	github.com/aws/aws-sdk-go-v2/service/secretsmanager v1.35.4
 	github.com/gin-gonic/gin v1.10.1
-	github.com/joho/godotenv v1.5.1
 	github.com/redis/go-redis/v9 v9.9.0
 )
 

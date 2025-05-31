@@ -4,20 +4,16 @@ import (
 	"context"
 	"time"
 
+	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/costexplorer"
 	"github.com/aws/aws-sdk-go-v2/service/costexplorer/types"
-	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/deepanshumishra/devcost-api/internal/config"
 	"github.com/deepanshumishra/devcost-api/internal/models"
 )
 
-func GetProjectCosts(cfg *config.Config) ([]models.ProjectCost, error) {
+func GetProjectCosts(cfg *config.Config, start, end time.Time) ([]models.ProjectCost, error) {
 	// Initialize Cost Explorer client
 	client := costexplorer.NewFromConfig(cfg.AWSConfig)
-
-	// Set time range (last 7 days)
-	end := time.Now()
-	start := end.AddDate(0, 0, -7)
 
 	// Query Cost Explorer
 	input := &costexplorer.GetCostAndUsageInput{

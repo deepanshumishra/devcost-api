@@ -1,33 +1,33 @@
 package main
 
 import (
+	"log"
+
 	"github.com/deepanshumishra/devcost-api/internal/api"
 	"github.com/deepanshumishra/devcost-api/internal/config"
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
-	"log"
 )
 
 func main() {
-	// Load environment variables
-	if err := godotenv.Load(); err != nil {
-		log.Println("No .env file found")
-	}
-
-	// Initialize AWS config
+	// Load configuration
 	cfg, err := config.NewConfig()
 	if err != nil {
-		log.Fatalf("Failed to initialize config: %v", err)
+		log.Fatalf("Failed to load config: %v", err)
 	}
 
 	// Initialize Gin router
 	r := gin.Default()
 
-	// Setup routes with config
+	// Set trusted proxies (localhost for testing)
+	if err := r.SetTrustedProxies([]string{"127.0.0.1", "::1"}); err != nil {
+		log.Fatalf("Failed to set trusted proxies: %v", err)
+	}
+
+	// Setup routes
 	api.SetupRoutes(r, cfg)
 
-	// Run server on port 8080
+	// Start server
 	if err := r.Run(":8080"); err != nil {
-		log.Fatalf("Failed to run server: %v", err)
+		log.Fatalf("Failed to start server: %v", err)
 	}
 }
