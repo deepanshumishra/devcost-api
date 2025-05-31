@@ -2,26 +2,33 @@
 Golang backend APIs for DevCost, a SaaS tool for AWS cost management and unused resource detection.
 
 ```plaintext
-devcost-backend/
+devcost-api/
 ├── cmd/
 │   └── api/
-│       └── main.go          # Entry point for the API server
+│       └── main.go          # Updated to load AWS config
 ├── internal/
-│   ├── api/                # API handlers and routes
-│   │   ├── handlers/       # HTTP handlers (e.g., cost, resources, slack)
-│   │   └── routes.go       # API route definitions
-│   ├── aws/                # AWS SDK logic (Cost Explorer, CloudWatch, EC2)
-│   ├── slack/              # Slack integration logic
-│   └── models/             # Data models (e.g., User, Project, Resource)
+│   ├── api/
+│   │   ├── handlers/
+│   │   │   ├── health.go    # Existing health check
+│   │   │   └── costs.go     # New cost endpoint handler
+│   │   └── routes.go        # Updated with /costs/projects
+│   ├── aws/
+│   │   └── costexplorer.go  # AWS Cost Explorer logic
+│   ├── models/
+│   │   └── cost.go          # Cost data model
+│   ├── slack/               # Empty, for future
+│   └── config/              # New: AWS and Redis config
+│       └── config.go
 ├── pkg/
-│   └── db/                 # Database connection and queries (PostgreSQL, Redis)
-├── .gitignore              # Git ignore file (from Go template)
-├── go.mod                  # Go module file
-├── go.sum                  # Dependency checksums
-├── README.md               # Project documentation
-└── .github/
-    └── workflows/
-        └── ci.yml          # GitHub Actions CI/CD pipeline
+│   └── db/
+│       └── redis.go         # Redis connection (optional)
+├── .github/
+│   └── workflows/
+│       └── ci.yml           # Existing CI/CD
+├── Dockerfile               # Existing
+├── go.mod                   # Updated with new dependencies
+├── README.md                # Existing
+└── .env                     # New: Environment variables
 ```
 
 
