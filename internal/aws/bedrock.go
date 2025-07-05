@@ -15,6 +15,7 @@ import (
 	"github.com/deepanshumishra/devcost-api/internal/models"
 )
 
+
 // ListUnusedBedrockResources identifies unused Bedrock models and knowledge bases.
 func ListUnusedBedrockResources(cfg *config.Config, start, end time.Time, unusedForDays int) ([]models.UnusedResource, error) {
 	// Initialize Bedrock client for custom models

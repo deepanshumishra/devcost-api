@@ -2,33 +2,49 @@
 Golang backend APIs for DevCost, a SaaS tool for AWS cost management and unused resource detection.
 
 ```plaintext
-devcost-api/
-├── cmd/
-│   └── api/
-│       └── main.go          # Updated to load AWS config
-├── internal/
-│   ├── api/
-│   │   ├── handlers/
-│   │   │   ├── health.go    # Existing health check
-│   │   │   └── costs.go     # New cost endpoint handler
-│   │   └── routes.go        # Updated with /costs/projects
-│   ├── aws/
-│   │   └── costexplorer.go  # AWS Cost Explorer logic
-│   ├── models/
-│   │   └── cost.go          # Cost data model
-│   ├── slack/               # Empty, for future
-│   └── config/              # New: AWS and Redis config
-│       └── config.go
-├── pkg/
-│   └── db/
-│       └── redis.go         # Redis connection (optional)
-├── .github/
-│   └── workflows/
-│       └── ci.yml           # Existing CI/CD
-├── Dockerfile               # Existing
-├── go.mod                   # Updated with new dependencies
-├── README.md                # Existing
-└── .env                     # New: Environment variables
+devcost-api
+│   ├── cmd
+│   │   └── api
+│   │       └── main.go
+│   ├── Dockerfile
+│   ├── go.mod
+│   ├── go.sum
+│   ├── internal
+│   │   ├── api
+│   │   │   ├── handlers
+│   │   │   │   ├── health_test.go
+│   │   │   │   ├── health.go
+│   │   │   │   ├── resources_test.go
+│   │   │   │   ├── resources.go
+│   │   │   │   └── users.go
+│   │   │   └── routes.go
+│   │   ├── aws
+│   │   │   ├── bedrock.go
+│   │   │   ├── cloudwatch.go
+│   │   │   ├── cost.go
+│   │   │   ├── dynamodb.go
+│   │   │   ├── ec2.go
+│   │   │   ├── elb.go
+│   │   │   ├── iam.go
+│   │   │   ├── lambda.go
+│   │   │   ├── rds.go
+│   │   │   ├── resourcegroupstagging.go
+│   │   │   ├── resources.go
+│   │   │   └── secretsmanager.go
+│   │   ├── config
+│   │   │   └── config.go
+│   │   ├── models
+│   │   │   ├── cost.go
+│   │   │   ├── resource.go
+│   │   │   └── user.go
+│   │   └── slack
+│   ├── pkg
+│   │   └── db
+│   │       └── redis.go
+│   └── README.md
+├── Dockerfile
+└── UI
+    └── web.html
 ```
 
 

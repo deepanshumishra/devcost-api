@@ -3,13 +3,13 @@ package aws
 import (
 	"context"
 	"log"
-	"time"
 	"strconv"
+	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatch"
-	"github.com/aws/aws-sdk-go-v2/service/rds"
 	"github.com/aws/aws-sdk-go-v2/service/cloudwatch/types"
+	"github.com/aws/aws-sdk-go-v2/service/rds"
 	"github.com/deepanshumishra/devcost-api/internal/config"
 	"github.com/deepanshumishra/devcost-api/internal/models"
 )
@@ -57,7 +57,8 @@ func ListUnusedRDSResources(cfg *config.Config, start, end time.Time, unusedForD
 		if isIdle {
 			unusedResources = append(unusedResources, models.UnusedResource{
 				ResourceType: "rds:instance",
-				Reason:       "CPU utilization <5% for " + strconv.Itoa(unusedForDays) + " days",
+				ResourceID:   aws.ToString(db.DBInstanceIdentifier),
+				Reason:       "CPU utilization <20% for " + strconv.Itoa(unusedForDays) + " days",
 			})
 			log.Printf("Found unused RDS instance (idle): %s", aws.ToString(db.DBInstanceIdentifier))
 		}
@@ -66,7 +67,7 @@ func ListUnusedRDSResources(cfg *config.Config, start, end time.Time, unusedForD
 	return unusedResources, nil
 }
 
-// isRDSInstanceIdle checks if an RDS instance has CPU utilization <5%.
+// isRDSInstanceIdle checks if an RDS instance has CPU utilization <20%.
 func isRDSInstanceIdle(cfg *config.Config, dbInstanceID string, start, end time.Time) (bool, error) {
 	client := cloudwatch.NewFromConfig(cfg.AWSConfig)
 
@@ -114,12 +115,12 @@ func isRDSInstanceIdle(cfg *config.Config, dbInstanceID string, start, end time.
 		for i, value := range metricResult.Values {
 			log.Printf("RDS %s CPU at %s: %f%%", dbInstanceID, metricResult.Timestamps[i].Format("2006-01-02 15:04:05"), value)
 			if value >= 20.0 {
-				log.Printf("RDS %s not idle (CPU %f%% >= 5%%)", dbInstanceID, value)
+				log.Printf("RDS %s not idle (CPU %f%% >= 20%%)", dbInstanceID, value)
 				return false, nil
 			}
 		}
 	}
 
-	log.Printf("RDS %s is idle (<5%% CPU) from %s to %s", dbInstanceID, start.Format("2006-01-02"), end.Format("2006-01-02"))
+	log.Printf("RDS %s is idle (<20%% CPU) from %s to %s", dbInstanceID, start.Format("2006-01-02"), end.Format("2006-01-02"))
 	return true, nil
 }
