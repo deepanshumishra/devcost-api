@@ -58,3 +58,10 @@ devcost-api
 - Per-project cost dashboards (AWS Cost Explorer)
 - Unused resource detection (idle EC2 instances, unattached EBS volumes)
 - Slack daily summaries
+
+## Run inside docker
+ ✗ docker run --rm -p 8080:8080 \
+  -e AWS_REGION=ap-south-1 \
+  -e AWS_ACCESS_KEY_ID=<access_key> \
+  -e AWS_SECRET_ACCESS_KEY=<secret_key> \
+  deepanshu1411/devcost-api:latest
